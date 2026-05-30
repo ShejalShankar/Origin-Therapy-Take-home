@@ -34,7 +34,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 Each inbox item goes through two stages:
 
 ### Stage 1 — LLM Extraction (`extractWithLLM`)
-One `claude-sonnet-4-20250514` call per item. The system prompt instructs the model to return
+One `claude-sonnet-4-6` call per item. The system prompt instructs the model to return
 structured JSON containing:
 - `classification`, `urgency`, `requires_human_review`
 - `extracted_intake` (child name, DOB, payer, etc.)
@@ -129,3 +129,7 @@ crashing the batch.
 5. **Richer draft replies**: Pass the tool results (slot times, hold IDs) back into a second LLM
    call to generate drafts that reference specific times — "We have a slot available Tuesday
    April 29 at 1pm" rather than a generic acknowledgement.
+   
+6. **Schema Validation**: Use a library like Zod to validate the LLM's JSON output before passing
+    it to Stage 2, guaranteeing complete type safety over the extracted data.
+   
